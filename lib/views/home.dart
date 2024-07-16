@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart' as loc;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:local_db_test/controllers/bookController.dart';
@@ -33,10 +34,14 @@ class HomeScreen extends StatelessWidget {
                 },
               ),
               centerTitle: false,
-              actions: [
-                Image.asset(
-                  "assets/images/icon.png",
-                  color: const Color(0xFF46B891),
+              actions: const [
+                Padding(
+                  padding: EdgeInsets.only(right: 12),
+                  child: Icon(
+                    Icons.multiple_stop_rounded,
+                    color: Colors.white,
+                    size: 32,
+                  ),
                 )
               ],
               backgroundColor: const Color(0xFF46B891),
@@ -50,20 +55,20 @@ class HomeScreen extends StatelessWidget {
                     if (bookController.books.isNotEmpty)
                       Text(
                         bookController.books.first.title,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
+                        style: Theme.of(context).textTheme.bodyMedium!.merge(
+                            const TextStyle(fontSize: 16, color: Colors.white)),
                       ),
                     const SizedBox(height: 4),
                     if (chapterController.chapters.isNotEmpty)
                       Text(
                         chapterController.chapters.first.title,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                        ),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .merge(const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                            )),
                       ),
                   ],
                 ),
@@ -115,10 +120,12 @@ class HomeScreen extends StatelessWidget {
                                   RichText(
                                     text: TextSpan(
                                       text: '${section.number} ',
-                                      style: const TextStyle(
-                                          color: Color(0xFF46B891),
-                                          fontSize: 20.0,
-                                          fontWeight: FontWeight.bold),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .merge(const TextStyle(
+                                            color: Color(0xFF46B891),
+                                          )),
                                       children: <TextSpan>[
                                         if (section.number != section.title &&
                                             section.title != "")
@@ -142,10 +149,13 @@ class HomeScreen extends StatelessWidget {
                                       section.preface != "")
                                     Text(
                                       '${section.preface}',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.grey.shade500,
-                                          fontSize: 20),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .merge(TextStyle(
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.grey.shade500,
+                                          )),
                                     ),
                                 ],
                               ),
@@ -194,14 +204,11 @@ class HomeScreen extends StatelessWidget {
                                                             child: const Center(
                                                               child: Text(
                                                                 'B',
-                                                                style: TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontSize:
-                                                                        20),
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
                                                               ),
                                                             ),
                                                           ),
@@ -218,31 +225,33 @@ class HomeScreen extends StatelessWidget {
                                                           Text(
                                                             bookController.books
                                                                 .first.title,
-                                                            style: TextStyle(
-                                                                fontSize: 16,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: Colors
-                                                                    .grey
-                                                                    .shade600),
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyMedium!
+                                                                .merge(TextStyle(
+                                                                    fontSize:
+                                                                        16,
+                                                                    color: Colors
+                                                                        .grey
+                                                                        .shade600)),
                                                           ),
                                                           Text(
-                                                            "হাদিস: " +
-                                                                hadith.sectionId
-                                                                    .toString(),
-                                                            style: const TextStyle(
-                                                                fontSize: 14,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: Color
-                                                                    .fromARGB(
-                                                                        255,
-                                                                        60,
-                                                                        101,
-                                                                        62)),
-                                                          ),
+                                                              "হাদিস: ${loc.tr(hadith.sectionId.toString())}",
+                                                              style: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .bodyMedium!
+                                                                  .merge(
+                                                                    const TextStyle(
+                                                                        fontSize:
+                                                                            14,
+                                                                        color: Color.fromARGB(
+                                                                            255,
+                                                                            60,
+                                                                            101,
+                                                                            62)),
+                                                                  )),
                                                         ],
                                                       )
                                                     ],
@@ -272,13 +281,15 @@ class HomeScreen extends StatelessWidget {
                                                                   0xFF46B891)),
                                                           child: Text(
                                                             hadith.grade!,
-                                                            style: const TextStyle(
-                                                                fontSize: 12,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: Colors
-                                                                    .white),
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyMedium!
+                                                                .merge(const TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    color: Colors
+                                                                        .white)),
                                                           ),
                                                         ),
                                                       ),
@@ -299,7 +310,9 @@ class HomeScreen extends StatelessWidget {
                                                 textDirection:
                                                     TextDirection.rtl,
                                                 style: const TextStyle(
-                                                    fontSize: 20, height: 2),
+                                                    fontFamily: "KFGQ",
+                                                    fontSize: 20,
+                                                    height: 2),
                                               ),
                                             ],
                                           ),
@@ -311,21 +324,28 @@ class HomeScreen extends StatelessWidget {
                                                 "${hadith.narrator} থেকে বর্ণিত :",
                                                 textDirection:
                                                     TextDirection.ltr,
-                                                style: const TextStyle(
-                                                  height: 2,
-                                                  fontSize: 20,
-                                                  color: Color(0xFF46B891),
-                                                ),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium!
+                                                    .merge(const TextStyle(
+                                                      height: 2,
+                                                      color: Color(0xFF46B891),
+                                                    )),
                                               ),
                                               Text(
                                                 hadith.bn,
                                                 textDirection:
                                                     TextDirection.ltr,
-                                                style: const TextStyle(
-                                                  height: 2,
-                                                  fontSize: 18,
-                                                  color: Colors.black,
-                                                ),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium!
+                                                    .merge(const TextStyle(
+                                                      height: 2,
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.black,
+                                                    )),
                                               ),
                                             ],
                                           ),

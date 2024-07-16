@@ -1,5 +1,8 @@
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:local_db_test/database_helper.dart';
+import 'package:local_db_test/utils/database_helper.dart';
 import 'package:local_db_test/models/hadith.dart';
 
 class HadithController extends GetxController {
@@ -13,7 +16,17 @@ class HadithController extends GetxController {
   }
 
   void fetchHadiths() async {
-    var fetchedHadiths = await dbHelper.getHadiths(); // Implement getHadiths() in DBHelper
-    hadiths.assignAll(fetchedHadiths);
+    try {
+      var fetchedHadiths =
+          await dbHelper.getHadiths(); // Implement getHadiths() in DBHelper
+      hadiths.assignAll(fetchedHadiths);
+    } catch (e) {
+      log('Error fetching hadiths: $e');
+      Get.snackbar('Error fetching hadiths: ', "$e",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          margin: const EdgeInsets.all(10));
+    }
   }
 }

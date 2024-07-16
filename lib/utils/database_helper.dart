@@ -39,8 +39,10 @@ class DBHelper extends GetxController {
         await Directory(dirname(path)).create(recursive: true);
       } catch (_) {}
 
-      ByteData data = await rootBundle.load(join("assets", "db", "hadith_db.db"));
-      List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+      ByteData data =
+          await rootBundle.load(join("assets", "db", "hadith_db.db"));
+      List<int> bytes =
+          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 
       await File(path).writeAsBytes(bytes);
     }
@@ -51,10 +53,10 @@ class DBHelper extends GetxController {
   Future<List<Book>> getBooks() async {
     final db = await database;
     var res = await db.query('books');
-    List<Book> list = res.isNotEmpty ? res.map((c) => Book.fromMap(c)).toList() : [];
+    List<Book> list =
+        res.isNotEmpty ? res.map((c) => Book.fromMap(c)).toList() : [];
     return list;
   }
-
 
   Future<List<Chapter>> getChapters() async {
     final db = await database;
@@ -64,19 +66,19 @@ class DBHelper extends GetxController {
     return list;
   }
 
-    Future<List<Hadith>> getHadiths() async {
+  Future<List<Hadith>> getHadiths() async {
     final db = await database;
     var res = await db.query('hadith');
-    List<Hadith> list = res.isNotEmpty ? res.map((c) => Hadith.fromMap(c)).toList() : [];
+    List<Hadith> list =
+        res.isNotEmpty ? res.map((c) => Hadith.fromMap(c)).toList() : [];
     return list;
   }
 
   Future<List<Section>> getSections() async {
     final db = await database;
     var res = await db.query('section');
-    List<Section> list = res.isNotEmpty ? res.map((c) => Section.fromMap(c)).toList() : [];
+    List<Section> list =
+        res.isNotEmpty ? res.map((c) => Section.fromMap(c)).toList() : [];
     return list;
   }
-
- 
 }
