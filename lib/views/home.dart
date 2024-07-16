@@ -6,6 +6,8 @@ import 'package:local_db_test/controllers/hadithController.dart';
 import 'package:local_db_test/controllers/sectionController.dart';
 import 'package:local_db_test/models/hadith.dart';
 import 'package:local_db_test/models/section.dart';
+import 'package:local_db_test/widgets/hexagon.dart';
+import 'package:local_db_test/widgets/showDialog.dart';
 
 class HomeScreen extends StatelessWidget {
   final BooksController bookController = Get.put(BooksController());
@@ -40,27 +42,31 @@ class HomeScreen extends StatelessWidget {
               backgroundColor: const Color(0xFF46B891),
               floating: true,
               snap: true,
-              title: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    bookController.books.first.title,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    chapterController.chapters.first.title,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
+              title: Obx(
+                () => Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (bookController.books.isNotEmpty)
+                      Text(
+                        bookController.books.first.title,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
+                    const SizedBox(height: 4),
+                    if (chapterController.chapters.isNotEmpty)
+                      Text(
+                        chapterController.chapters.first.title,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                      ),
+                  ],
+                ),
               ),
               flexibleSpace: FlexibleSpaceBar(
                 background: Stack(
@@ -111,7 +117,7 @@ class HomeScreen extends StatelessWidget {
                                       text: '${section.number} ',
                                       style: const TextStyle(
                                           color: Color(0xFF46B891),
-                                          fontSize: 18.0,
+                                          fontSize: 20.0,
                                           fontWeight: FontWeight.bold),
                                       children: <TextSpan>[
                                         if (section.number != section.title &&
@@ -121,7 +127,7 @@ class HomeScreen extends StatelessWidget {
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.grey.shade700,
-                                                fontSize: 28),
+                                                fontSize: 20),
                                           ),
                                       ],
                                     ),
@@ -137,7 +143,7 @@ class HomeScreen extends StatelessWidget {
                                     Text(
                                       '${section.preface}',
                                       style: TextStyle(
-                                          fontWeight: FontWeight.w500,
+                                          fontWeight: FontWeight.w400,
                                           color: Colors.grey.shade500,
                                           fontSize: 20),
                                     ),
@@ -152,6 +158,7 @@ class HomeScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(15),
                                   color: Colors.white),
                               child: Obx(() => ListView.builder(
+                                    padding: EdgeInsets.zero,
                                     shrinkWrap: true,
                                     physics:
                                         const NeverScrollableScrollPhysics(),
@@ -161,20 +168,166 @@ class HomeScreen extends StatelessWidget {
                                           hadithController.hadiths[index];
                                       if (hadith.sectionId == section.id) {
                                         return ListTile(
-                                          title: Text(
-                                            hadith.ar,
-                                            textDirection: TextDirection.rtl,
-                                            style: const TextStyle(
-                                                fontSize: 20, height: 2),
+                                          contentPadding: EdgeInsets.zero,
+                                          title: Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Center(
+                                                        child: ClipPath(
+                                                          clipper:
+                                                              HexagonClipper(), // Set the desired corner radius
+                                                          child: Container(
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: Colors
+                                                                  .green
+                                                                  .shade600,
+                                                            ),
+                                                            width: 40,
+                                                            height: 40,
+                                                            child: const Center(
+                                                              child: Text(
+                                                                'B',
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontSize:
+                                                                        20),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 8,
+                                                      ),
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            bookController.books
+                                                                .first.title,
+                                                            style: TextStyle(
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Colors
+                                                                    .grey
+                                                                    .shade600),
+                                                          ),
+                                                          Text(
+                                                            "হাদিস: " +
+                                                                hadith.sectionId
+                                                                    .toString(),
+                                                            style: const TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Color
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        60,
+                                                                        101,
+                                                                        62)),
+                                                          ),
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      InkWell(
+                                                        onTap: () {
+                                                          showAlertDialog(
+                                                              context);
+                                                        },
+                                                        child: Container(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                                  right: 4),
+                                                          alignment:
+                                                              Alignment.center,
+                                                          width: 80,
+                                                          height: 36,
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20),
+                                                              color: const Color(
+                                                                  0xFF46B891)),
+                                                          child: Text(
+                                                            hadith.grade!,
+                                                            style: const TextStyle(
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Colors
+                                                                    .white),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Icon(
+                                                        Icons.more_vert,
+                                                        color: Colors
+                                                            .grey.shade700,
+                                                      )
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 12,
+                                              ),
+                                              Text(
+                                                hadith.ar,
+                                                textDirection:
+                                                    TextDirection.rtl,
+                                                style: const TextStyle(
+                                                    fontSize: 20, height: 2),
+                                              ),
+                                            ],
                                           ),
-                                          subtitle: Text(
-                                            hadith.narrator,
-                                            textDirection: TextDirection.ltr,
-                                            style: const TextStyle(
-                                              height: 2,
-                                              fontSize: 20,
-                                              color: Color(0xFF46B891),
-                                            ),
+                                          subtitle: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "${hadith.narrator} থেকে বর্ণিত :",
+                                                textDirection:
+                                                    TextDirection.ltr,
+                                                style: const TextStyle(
+                                                  height: 2,
+                                                  fontSize: 20,
+                                                  color: Color(0xFF46B891),
+                                                ),
+                                              ),
+                                              Text(
+                                                hadith.bn,
+                                                textDirection:
+                                                    TextDirection.ltr,
+                                                style: const TextStyle(
+                                                  height: 2,
+                                                  fontSize: 18,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                           // Display other fields as needed
                                         );
